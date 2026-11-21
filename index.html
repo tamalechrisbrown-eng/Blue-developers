@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bluewave - DEMO (Fake Money Only)</title>
+<style>
+  body { font-family: Arial; text-align: center; background: #eef2ff; padding: 20px; }
+  .box { background: white; padding: 20px; border-radius: 15px; max-width: 400px; margin: auto; }
+  input { width: 90%; padding: 10px; margin: 5px; border-radius: 8px; border: 1px solid #ccc; }
+  button { padding: 10px 15px; margin: 5px; border: none; border-radius: 8px; background: #2563eb; color: white; cursor: pointer; }
+  button.green { background: #16a34a; }
+  button.red { background: #dc2626; }
+  .plan { border: 1px solid #ddd; padding: 10px; margin: 5px; border-radius: 10px; cursor: pointer; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div class="box" id="loginPage">
+  <h1>Bluewave</h1>
+  <p>DEMO APP - Fake Money For Learning Only</p>
+  <p>Welcome! Please login / register</p>
+  <input id="nameInput" placeholder="Enter your name">
+  <input id="emailInput" placeholder="Enter your email">
+  <br>
+  <button onclick="login()">Login</button>
+  <button onclick="login()">Register</button>
+</div>
+
+<div class="box hidden" id="dashboardPage">
+  <h2>Hello, <span id="userName"></span></h2>
+  <p>Dashboard</p>
+  <h3>Balance: <span id="balance">0</span> DEMO coins</h3>
+  <p>Profit: 9% yearly (DEMO)</p>
+
+  <button class="green" onclick="demoDeposit()">Deposit (Demo)</button>
+  <button class="red" onclick="demoWithdraw()">Withdraw (Demo)</button>
+  <br><br>
+
+  <h3>Investment Plans - DEMO</h3>
+  <div class="plan" onclick="invest(2000)">Plan 2,000 - Click to invest</div>
+  <div class="plan" onclick="invest(5000)">Plan 5,000 - Click to invest</div>
+  <div class="plan" onclick="invest(100000)">Plan 100,000 - Click to invest</div>
+  <div class="plan" onclick="invest(200000)">Plan 200,000 - Click to invest</div>
+  <div class="plan" onclick="invest(500000)">Plan 500,000 - Click to invest</div>
+  <div class="plan" onclick="invest(1000000)">Plan 1,000,000 - Click to invest</div>
+
+  <p id="message"></p>
+  <br>
+  <button onclick="showAdmin()">Admin Dashboard (Demo)</button>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<div class="box hidden" id="adminPage">
+  <h2>Admin Dashboard - DEMO</h2>
+  <p>Total Demo Users: <span id="adminUsers">1</span></p>
+  <p>Total Demo Balance: <span id="adminBalance">0</span></p>
+  <p>This is just for learning. No real money here.</p>
+  <button onclick="backToDashboard()">Back to Dashboard</button>
+</div>
+
+<script>
+let balance = 0;
+let name = "";
+
+function login() {
+  name = document.getElementById("nameInput").value;
+  if (name === "") { name = "Chris"; }
+  document.getElementById("userName").innerText = name;
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("dashboardPage").classList.remove("hidden");
+}
+
+function demoDeposit() {
+  balance = balance + 10000;
+  updateBalance();
+  document.getElementById("message").innerText = "Demo deposit successful! +10,000 DEMO coins added. No real money moved.";
+}
+
+function demoWithdraw() {
+  if (balance >= 5000) {
+    balance = balance - 5000;
+    updateBalance();
+    document.getElementById("message").innerText = "Demo withdraw successful! -5,000 DEMO coins. No real money moved.";
+  } else {
+    document.getElementById("message").innerText = "Not enough DEMO balance. Click Deposit first.";
+  }
+}
+
+function invest(amount) {
+  if (balance >= amount) {
+    balance = balance - amount;
+    let profit = amount * 0.09;
+    updateBalance();
+    document.getElementById("message").innerText = "You invested " + amount + " DEMO coins. Yearly profit would be " + profit + " DEMO coins in this DEMO.";
+  } else {
+    document.getElementById("message").innerText = "Not enough balance for " + amount + ". Click Deposit (Demo) first.";
+  }
+}
+
+function updateBalance() {
+  document.getElementById("balance").innerText = balance;
+  document.getElementById("adminBalance").innerText = balance;
+}
+
+function showAdmin() {
+  document.getElementById("dashboardPage").classList.add("hidden");
+  document.getElementById("adminPage").classList.remove("hidden");
+}
+
+function backToDashboard() {
+  document.getElementById("adminPage").classList.add("hidden");
+  document.getElementById("dashboardPage").classList.remove("hidden");
+}
+
+function logout() {
+  document.getElementById("dashboardPage").classList.add("hidden");
+  document.getElementById("loginPage").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
